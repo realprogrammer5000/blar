@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<!--suppress HtmlFormInputWithoutLabel -->
+<html lang="en-US">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="Shorten URLs with Blar.tk">
     <title>blar.tk - shorten URLs</title>
 
 
@@ -88,27 +90,34 @@
       a#result-link {
         color: black;
       }
+
+      .accessibility{
+        display: none;
+      }
     </style>
   </head>
   <body>
-    <section id="create-section">
-      <div class="big">
-        <div id="fixedinput">
-          <input type="url" class="entry-input" autocomplete="off" spellcheck="false" placeholder="paste a URL" id="url">
-        </div>
-      </div>
-      <div class="big">
-        blar.tk/<input class="entry-input" autocomplete="off" spellcheck="false" placeholder="(optional)" id="path">
-      </div>
-      <div class="big">
-        <button class="action-button" id="submit">go</button>
-      </div>
-    </section>
-    <section id="finished-section" hidden>
-      <div class="big"><a id="result-link" href="https://example.com">example.com</a></div>
-      <div class="big small-text">click to copy</div>
-      <div class="big"><button class="action-button" id="return">again</button></div>
-    </section>
+    <main>
+      <section id="create-section">
+          <div class="big">
+            <div id="fixedinput">
+              <span id="url-label" class="accessibility">Enter a URL</span>
+              <input type="url" class="entry-input" autocomplete="off" spellcheck="false" placeholder="paste a URL" id="url" aria-labelledby="url-label">
+            </div>
+          </div>
+          <div class="big">
+            blar.tk/<span id="path-label" class="accessibility">Enter a desired path</span><input class="entry-input" autocomplete="off" spellcheck="false" placeholder="(optional)" name="path" id="path" aria-labelledby="path-label">
+          </div>
+          <div class="big">
+            <button class="action-button" id="submit">go</button>
+          </div>
+      </section>
+      <section id="finished-section" hidden>
+        <div class="big"><a id="result-link" href="https://example.com">example.com</a></div>
+        <div class="big small-text">click to copy</div>
+        <div class="big"><button class="action-button" id="return">again</button></div>
+      </section>
+    </main>
 
     <script>
       const createSection = document.querySelector("#create-section");
