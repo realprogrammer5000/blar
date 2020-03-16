@@ -16,8 +16,27 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "/shorten",
+        "function": "shortenUrl"
+      },
+      {
+        "source": "/!(shorten)",
         "function": "render"
+      },
+      {
+        "source": "/!(shorten)/*",
+        "function": "render"
+      },
+      {
+        "source": "/!(shorten)/**",
+        "function": "render"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/shorten/**",
+        "destination": "/",
+        "type": 301
       }
     ]
   },
