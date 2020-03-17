@@ -13,6 +13,12 @@ const returnElem = document.querySelector("#return");
 const aboutBtn = document.querySelector("#about-btn");
 const backBtn = document.querySelector("#back-btn");
 
+mainElem.addEventListener("touchmove", event => {
+    window.scrollTo(0, 0);
+    event.preventDefault();
+    event.stopPropagation();
+}, false);
+
 const maxUrlLength = 22;
 const removeSuffixes = [".html", ".php"];
 const isHttps = true;
