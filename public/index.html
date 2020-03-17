@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--suppress HtmlFormInputWithoutLabel -->
+<!--suppress HtmlFormInputWithoutLabel, CssInvalidFunction -->
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
@@ -29,13 +29,54 @@
         margin: 0;
         padding: 0;
         user-select: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        overflow: hidden;
+      }
+
+      main{
+        background-color: transparent;
+        background-size: 0 200%;
+        background-image: url(https://raw.githubusercontent.com/aureooms/pixels/master/1x1%23000000.png);
+        background-repeat: no-repeat repeat;
+        transition: background-size .5s, bottom .5s;
+        position: relative;
+        bottom: 0;
+        grid-template-rows: 100vh 100vh;
+        grid-template-columns: 100vw 100vw;
+        display: grid;
+
+        grid-template-areas: "create about"
+        "finished .";
+      }
+
+      /*noinspection CssUnusedSymbol*/
+      main.finished{
+        background-size: 100% 200%;
+        bottom: 100vh;
       }
 
       section {
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      section.inverted{
+        color: white;
+      }
+
+      #create-section{
+        grid-area: create;
+      }
+
+      #finished-section{
+        grid-area: finished;
+      }
+
+      .entry-input{
+        background: transparent;
+        height: 1em;
       }
 
       .entry-input,
@@ -58,10 +99,6 @@
         display: flex;
       }
 
-      .small-text{
-        font-size: 1vw;
-      }
-
       #fixedinput {
         min-height: 7vw;
         display: flex;
@@ -78,6 +115,15 @@
         cursor: pointer;
       }
 
+      .inverted .action-button{
+        background: white;
+      }
+
+      section:not(.inverted) .action-button{
+        background: black;
+        color: white;
+      }
+
       #url:valid {
         border: var(--border-size) solid transparent;
       }
@@ -88,7 +134,28 @@
       }
 
       a#result-link {
-        color: black;
+        color: inherit;
+      }
+
+      a#result-link::before {
+        content: "click to copy";
+        position: absolute;
+        font-size: max(2vw, 2vh);
+        opacity: 0;
+        transition: opacity .25s, transform 0.25s;
+        transform: translateY(max(2vw, 2vh));
+      }
+
+      a#result-link:hover::before {
+        opacity: 1;
+        transform: translateY(max(-2.5vw, -2.5vh));
+      }
+
+      @media (hover: none){
+        a#result-link::before {
+          opacity: 1;
+          transform: translateY(max(-2.5vw, -2.5vh));
+        }
       }
 
       .accessibility{
@@ -112,16 +179,17 @@
             <button class="action-button" id="submit">go</button>
           </div>
       </section>
-      <section id="finished-section" hidden>
+      <section id="finished-section" class="inverted">
         <div class="big"><a id="result-link" href="https://example.com">example.com</a></div>
-        <div class="big small-text">click to copy</div>
-        <div class="big"><button class="action-button" id="return">again</button></div>
+        <div class="big"><button class="action-button" id="return">another</button></div>
       </section>
     </main>
 
     <script>
-      const createSection = document.querySelector("#create-section");
-      const finishedSection = document.querySelector("#finished-section");
+      // some stupid workaround because chrome thinks we've scrolled
+      history.scrollRestoration = "manual";
+      scrollTo(0, 0);
+      const mainElem = document.querySelector("main");
 
       const urlElem = document.querySelector("#url");
       const pathElem = document.querySelector("#path");
@@ -142,7 +210,7 @@
         const resp = await fetch(`${apiPath}?${path ? "path=" + path + "&": ""}dest=${dest}`, {method: "POST"});
         const data = await resp.json();
 
-        if(data.errors && data.errors.length && (!data.errors.length === 1 || data.errors[0] === "dest already exists")){
+        if(data.errors && data.errors.length && (data.errors.length !== 1 || data.errors[0] !== "dest already exists")){
           throw new Error("Got errors: " + data.errors.join("\n"));
         }
 
@@ -154,19 +222,19 @@
         urlElem.oldValue = undefined;
         pathElem.value = "";
 
-        createSection.hidden = false;
-        finishedSection.hidden = true;
+        mainElem.classList.remove("finished");
       };
 
       const submit = async () => {
-        if(wasValid){
+        if(urlElem.value && wasValid){
           const finalUrl = basePath + await shortenUrl(path.value, urlElem.oldValue || urlElem.value);
 
-          createSection.hidden = true;
-          finishedSection.hidden = false;
+          mainElem.classList.add("finished");
 
           resultLink.href = (isHttps ? "https://" : "http://") + finalUrl;
           resultLink.innerText = finalUrl;
+
+          // returnElem.focus();
         }
       };
 
@@ -184,9 +252,10 @@
 
       urlElem.addEventListener("blur", () => {
         wasValid = urlElem.validity.valid;
+        urlElem.oldValue = urlElem.value;
+
         if(urlElem.validity.valid){
           if (urlElem.value) {
-            urlElem.oldValue = urlElem.value;
             const url = new URL(urlElem.value);
             let newVal;
 
@@ -218,10 +287,10 @@
         }
       });
 
-      urlElem.addEventListener("paste", e => {
+      urlElem.addEventListener("paste", () => {
         setTimeout(() => {
           if(urlElem.validity.valid){
-            path.focus();
+            pathElem.focus();
           }
         }, 0);
       });
@@ -240,6 +309,9 @@
           prompt("Copy this text", resultLink.href);
         });
       });
+
+
+      addEventListener("beforeunload", () => scrollTo(0, 0));
     </script>
   </body>
 </html>
