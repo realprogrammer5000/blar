@@ -1,177 +1,198 @@
 :root {
-    --border-size: 5px;
-    --main-color: black;
-    --alt-color: gray;
-    --main-bkg-color: white;
-    --error-color: red;
+  --border-size: 5px;
+  --main-color: black;
+  --alt-color: gray;
+  --main-bkg-color: white;
+  --error-color: red;
 }
 
 body{
-    --border-size: 5px;
-    --main-color: #007bff;
-    --alt-color: #95c3f4;
-    --main-bkg-color: white;
-    --error-color: red;
+  --border-size: 5px;
+  --main-color: #007bff;
+  --alt-color: #95c3f4;
+  --main-bkg-color: white;
+  --error-color: red;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
 body {
-    min-width: 100vw;
-    min-height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
 }
 
 body {
-    font-size: 8vw;
-    font-family: 'Inconsolata', monospace;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-    overflow: hidden;
+  font-size: 8vw;
+  font-family: 'Inconsolata', monospace;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  overflow: hidden;
 }
 
 main{
-    background-color: transparent;
-    background-size: 0 200%;
-    background-image: linear-gradient(var(--main-color), var(--main-color));
-    background-repeat: no-repeat repeat;
-    transition: background-size .5s, bottom .5s;
-    position: relative;
-    bottom: 0;
-    grid-template-rows: 100vh 100vh;
-    grid-template-columns: 100vw 100vw;
-    display: grid;
+  background-color: transparent;
+  background-size: 0 200%;
+  background-image: linear-gradient(var(--main-color), var(--main-color));
+  background-repeat: no-repeat repeat;
+  transition: background-size .5s, bottom .5s, right .5s;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  grid-template-rows: 100vh 100vh;
+  grid-template-columns: 100vw 100vw;
+  display: grid;
 
-    grid-template-areas: "create about"
-    "finished .";
+  grid-template-areas: "create about"
+  "finished .";
+}
+
+main.about{
+  right: 100vw;
 }
 
 /*noinspection CssUnusedSymbol*/
 main.finished{
-    background-size: 100% 200%;
-    bottom: 100vh;
+  background-size: 100% 200%;
+  bottom: 100vh;
 }
 
 section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: var(--main-color);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: var(--main-color);
 }
 
 section.inverted{
-    color: var(--main-bkg-color);
+  color: var(--main-bkg-color);
 }
 
 #create-section{
-    grid-area: create;
+  grid-area: create;
 }
 
 #finished-section{
-    grid-area: finished;
+  grid-area: finished;
+}
+
+#about-section{
+  grid-area: about;
+}
+
+#about-section h1{
+  font-size: 9vh;
+}
+
+#about-section h2{
+  font-size: 5vh;
+}
+
+#about-section a {
+  color: var(--main-color);
 }
 
 .entry-input{
-    background: transparent;
-    height: 1em;
-    color: var(--main-color);
+  background: transparent;
+  height: 1em;
+  color: var(--main-color);
 }
 
 .entry-input,
 .action-button{
-    flex-grow: 1;
-    font-size: inherit;
-    font-family: inherit;
-    border: none;
+  flex-grow: 1;
+  font-size: inherit;
+  font-family: inherit;
+  border: none;
 }
 
 .entry-input:focus,
 .action-button {
-    outline: none;
+  outline: none;
 }
 
 .big {
-    width: 90%;
-    max-width: 90%;
-    margin: 0 auto;
-    display: flex;
+  width: 90%;
+  max-width: 90%;
+  margin: 0 auto;
+  display: flex;
 }
 
 #fixedinput {
-    min-height: 7vw;
-    display: flex;
-    align-items: center;
+  min-height: 7vw;
+  display: flex;
+  align-items: center;
 }
 
 #fixedinput,
 input {
-    width: 100%;
+  width: 100%;
 }
 
 .action-button{
-    flex-grow: 0;
-    cursor: pointer;
+  flex-grow: 0;
+  cursor: pointer;
 }
 
 .inverted .action-button{
-    background: var(--main-bkg-color);
-    color: var(--main-color);
+  background: var(--main-bkg-color);
+  color: var(--main-color);
 }
 
 section:not(.inverted) .action-button{
-    background: var(--main-color);
-    color: var(--main-bkg-color);
+  background: var(--main-color);
+  color: var(--main-bkg-color);
 }
 
 #url:valid {
-    border: var(--border-size) solid transparent;
+  border: var(--border-size) solid transparent;
 }
 
 #url:focus:not(:valid) {
-    outline: var(--border-size) solid var(--error-color);
+  outline: var(--border-size) solid var(--error-color);
 }
 
 #url::selection{
-    color: var(--main-bkg-color);
-    background: var(--main-color);
+  color: var(--main-bkg-color);
+  background: var(--main-color);
 }
 
 a#result-link {
-    color: inherit;
-    max-width: 100%;
-    overflow-wrap: break-word;
+  color: inherit;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 a#result-link::before {
-    content: "click to copy";
-    position: absolute;
-    font-size: max(2vw, 2vh);
-    opacity: 0;
-    transition: opacity .25s, transform 0.25s;
-    transform: translateY(max(2vw, 2vh));
+  content: "click to copy";
+  position: absolute;
+  font-size: max(2vw, 2vh);
+  opacity: 0;
+  transition: opacity .25s, transform 0.25s;
+  transform: translateY(max(2vw, 2vh));
 }
 
 a#result-link:hover::before {
-    opacity: 1;
-    transform: translateY(max(-2.5vw, -2.5vh));
+  opacity: 1;
+  transform: translateY(max(-2.5vw, -2.5vh));
 }
 
 @media (hover: none){
-    a#result-link::before {
-        opacity: 1;
-        transform: translateY(max(-2.5vw, -2.5vh));
-    }
+  a#result-link::before {
+    opacity: 1;
+    transform: translateY(max(-2.5vw, -2.5vh));
+  }
 }
 
 .accessibility{
-    display: none;
+  display: none;
 }
 
 ::placeholder{
-    color: var(--alt-color);
+  color: var(--alt-color);
 }

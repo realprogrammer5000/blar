@@ -100,7 +100,6 @@ urlElem.addEventListener("blur", () => {
                     pathname = url.pathname.slice(0, -1);
                 }
 
-                console.log(maxUrlLength - newVal.length, pathname.length);
                 if(pathname.length + newVal.length <= maxUrlLength){
                     newVal = newVal.slice(0, -1);
                 }
