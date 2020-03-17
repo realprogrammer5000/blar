@@ -1,0 +1,154 @@
+:root {
+    --border-size: 5px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+body {
+    font-size: 8vw;
+    font-family: "monospace";
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    overflow: hidden;
+}
+
+main{
+    background-color: transparent;
+    background-size: 0 200%;
+    background-image: url(/1x1black.png);
+    background-repeat: no-repeat repeat;
+    transition: background-size .5s, bottom .5s;
+    position: relative;
+    bottom: 0;
+    grid-template-rows: 100vh 100vh;
+    grid-template-columns: 100vw 100vw;
+    display: grid;
+
+    grid-template-areas: "create about"
+    "finished .";
+}
+
+/*noinspection CssUnusedSymbol*/
+main.finished{
+    background-size: 100% 200%;
+    bottom: 100vh;
+}
+
+section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section.inverted{
+    color: white;
+}
+
+#create-section{
+    grid-area: create;
+}
+
+#finished-section{
+    grid-area: finished;
+}
+
+.entry-input{
+    background: transparent;
+    height: 1em;
+}
+
+.entry-input,
+.action-button{
+    flex-grow: 1;
+    font-size: inherit;
+    font-family: inherit;
+    border: none;
+}
+
+.entry-input:focus,
+.action-button {
+    outline: none;
+}
+
+.big {
+    width: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+    display: flex;
+}
+
+#fixedinput {
+    min-height: 7vw;
+    display: flex;
+    align-items: center;
+}
+
+#fixedinput,
+input {
+    width: 100%;
+}
+
+.action-button{
+    flex-grow: 0;
+    cursor: pointer;
+}
+
+.inverted .action-button{
+    background: white;
+}
+
+section:not(.inverted) .action-button{
+    background: black;
+    color: white;
+}
+
+#url:valid {
+    border: var(--border-size) solid transparent;
+}
+
+#url:focus:not(:valid) {
+    border: var(--border-size) solid red;
+    border-radius: 10px;
+}
+
+a#result-link {
+    color: inherit;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+a#result-link::before {
+    content: "click to copy";
+    position: absolute;
+    font-size: max(2vw, 2vh);
+    opacity: 0;
+    transition: opacity .25s, transform 0.25s;
+    transform: translateY(max(2vw, 2vh));
+}
+
+a#result-link:hover::before {
+    opacity: 1;
+    transform: translateY(max(-2.5vw, -2.5vh));
+}
+
+@media (hover: none){
+    a#result-link::before {
+        opacity: 1;
+        transform: translateY(max(-2.5vw, -2.5vh));
+    }
+}
+
+.accessibility{
+    display: none;
+}
