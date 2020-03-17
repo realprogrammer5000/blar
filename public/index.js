@@ -10,6 +10,9 @@ const submitElem = document.querySelector("#submit");
 const resultLink = document.querySelector("#result-link");
 const returnElem = document.querySelector("#return");
 
+const aboutBtn = document.querySelector("#about-btn");
+const backBtn = document.querySelector("#back-btn");
+
 const maxUrlLength = 22;
 const removeSuffixes = [".html", ".php"];
 const isHttps = true;
@@ -140,3 +143,15 @@ resultLink.addEventListener("click", e => {
 
 
 addEventListener("beforeunload", () => scrollTo(0, 0));
+
+aboutBtn.addEventListener("click", () => {
+    mainElem.classList.add("about");
+    aboutBtn.hidden = true;
+    backBtn.hidden = false;
+});
+
+backBtn.addEventListener("click", () => {
+    mainElem.classList.remove("about");
+    aboutBtn.hidden = false;
+    backBtn.hidden = true;
+});

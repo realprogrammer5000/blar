@@ -50,13 +50,15 @@ main{
   "finished .";
 }
 
-main.about{
+body main.about{
   right: 100vw;
+  bottom: 0;
 }
 
 /*noinspection CssUnusedSymbol*/
 main.finished{
   background-size: 100% 200%;
+  right: 0;
   bottom: 100vh;
 }
 
@@ -83,14 +85,17 @@ section.inverted{
 
 #about-section{
   grid-area: about;
+  user-select: auto;
+  font-size: 4vh;
 }
 
 #about-section h1{
-  font-size: 9vh;
+  font-size: 10vh;
+  margin-bottom: 0;
 }
 
 #about-section h2{
-  font-size: 5vh;
+  font-size: 6vh;
 }
 
 #about-section a {
@@ -195,4 +200,24 @@ a#result-link:hover::before {
 
 ::placeholder{
   color: var(--alt-color);
+}
+
+footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: 0;
+}
+
+.footer-button{
+  border: none;
+  background: var(--main-bkg-color);
+  color: var(--main-color);
+  font-family: inherit;
+  font-size: max(14px, 3vh);
+  cursor: pointer;
+}
+
+.footer-button:focus{
+  outline: none;
 }
