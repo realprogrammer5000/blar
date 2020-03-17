@@ -1,2 +1,1 @@
-# blar
-BLAR url shortener
+# [Blar.tk](https://blar.tk)
