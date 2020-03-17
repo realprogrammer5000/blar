@@ -46,6 +46,8 @@ const submit = async () => {
         resultLink.href = (isHttps ? "https://" : "http://") + finalUrl;
         resultLink.innerText = finalUrl;
 
+        gtag("event", "submit", {event_catergory: "engagement", event_label: "path"});
+
         // returnElem.focus();
     }
 };
