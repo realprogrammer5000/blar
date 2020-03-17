@@ -87,7 +87,6 @@ urlElem.addEventListener("blur", () => {
             if(url.pathname === "/" || url.hostname.length > maxUrlLength){
                 newVal = `${hostname.slice(0, maxUrlLength)}`;
             }else{
-                if(hostname.length > maxHos)
                 newVal = `${hostname}/…`;
                 let pathname = url.pathname.slice(1);
 
