@@ -18,6 +18,11 @@ const apiPath = "shorten";
 
 let wasValid = false;
 
+if ("serviceWorker" in navigator){
+    navigator.serviceWorker.register("/sw.js");
+}
+
+
 const shortenUrl = async (path, dest) => {
     const resp = await fetch(`${apiPath}?${path ? "path=" + path + "&": ""}dest=${dest}`, {method: "POST"});
     const data = await resp.json();
