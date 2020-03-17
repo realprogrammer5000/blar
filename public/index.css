@@ -133,8 +133,12 @@ section:not(.inverted) .action-button{
 }
 
 #url:focus:not(:valid) {
-    border: var(--border-size) solid var(--error-color);
-    border-radius: 10px;
+    outline: var(--border-size) solid var(--error-color);
+}
+
+#url::selection{
+    color: var(--main-bkg-color);
+    background: var(--main-color);
 }
 
 a#result-link {
