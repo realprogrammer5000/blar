@@ -76,7 +76,7 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
         const matchingDestDocs = await db.collection("urls").where("dest", "==", dest).get();
 
         if(!matchingDestDocs.empty){
-            return response.status(400).json({errors: ["dest already exists"], path: matchingDestDocs.docs[0].path});
+            return response.status(400).json({errors: ["dest already exists"], path: matchingDestDocs.docs[0].data().path});
         }
 
         if(!hasPath) path = getRandPath();
