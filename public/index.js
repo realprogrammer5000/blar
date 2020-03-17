@@ -10,7 +10,7 @@ const submitElem = document.querySelector("#submit");
 const resultLink = document.querySelector("#result-link");
 const returnElem = document.querySelector("#return");
 
-const maxUrlLength = 18;
+const maxUrlLength = 22;
 const removeSuffixes = [".html", ".php"];
 const isHttps = true;
 const basePath = "blar.tk/";
@@ -73,15 +73,16 @@ urlElem.addEventListener("blur", () => {
 
             let hostname = url.hostname;
 
-            if(hostname.length > 8 && hostname.startsWith("www.")){
+            if(hostname.length > 10 && hostname.startsWith("www.")){
                 hostname = hostname.replace("www.", "");
             }
 
             if(url.pathname === "/" || url.hostname.length > maxUrlLength){
                 newVal = `${hostname.slice(0, maxUrlLength)}`;
             }else{
-                newVal = `${hostname}…`;
-                let pathname = url.pathname;
+                if(hostname.length > maxHos)
+                newVal = `${hostname}/…`;
+                let pathname = url.pathname.slice(1);
 
                 for(const removeSuffix of removeSuffixes){
                     if(pathname.endsWith(removeSuffix)){
@@ -92,6 +93,12 @@ urlElem.addEventListener("blur", () => {
                 if(pathname.charAt(pathname.length - 1) === "/"){
                     pathname = url.pathname.slice(0, -1);
                 }
+
+                console.log(maxUrlLength - newVal.length, pathname.length);
+                if(maxUrlLength + newVal.length <= pathname.length){
+                    newVal = newVal.slice(0, -1);
+                }
+
                 newVal += pathname.slice(-(maxUrlLength - newVal.length));
             }
             urlElem.value = newVal;
@@ -105,6 +112,10 @@ urlElem.addEventListener("paste", () => {
             pathElem.focus();
         }
     }, 0);
+});
+
+pathElem.addEventListener("input", e => {
+    if(pathElem.value.includes(" ")) pathElem.value = pathElem.value.replace(/ /g, "-");
 });
 
 pathElem.addEventListener("keypress", e => {

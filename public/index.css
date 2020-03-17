@@ -1,5 +1,17 @@
 :root {
     --border-size: 5px;
+    --main-color: black;
+    --alt-color: gray;
+    --main-bkg-color: white;
+    --error-color: red;
+}
+
+body{
+    --border-size: 5px;
+    --main-color: #007bff;
+    --alt-color: #95c3f4;
+    --main-bkg-color: white;
+    --error-color: red;
 }
 
 * {
@@ -14,7 +26,7 @@ body {
 
 body {
     font-size: 8vw;
-    font-family: "monospace";
+    font-family: 'Inconsolata', monospace;
     margin: 0;
     padding: 0;
     user-select: none;
@@ -24,7 +36,7 @@ body {
 main{
     background-color: transparent;
     background-size: 0 200%;
-    background-image: url(/1x1black.png);
+    background-image: linear-gradient(var(--main-color), var(--main-color));
     background-repeat: no-repeat repeat;
     transition: background-size .5s, bottom .5s;
     position: relative;
@@ -49,10 +61,11 @@ section {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    color: var(--main-color);
 }
 
 section.inverted{
-    color: white;
+    color: var(--main-bkg-color);
 }
 
 #create-section{
@@ -66,6 +79,7 @@ section.inverted{
 .entry-input{
     background: transparent;
     height: 1em;
+    color: var(--main-color);
 }
 
 .entry-input,
@@ -105,12 +119,13 @@ input {
 }
 
 .inverted .action-button{
-    background: white;
+    background: var(--main-bkg-color);
+    color: var(--main-color);
 }
 
 section:not(.inverted) .action-button{
-    background: black;
-    color: white;
+    background: var(--main-color);
+    color: var(--main-bkg-color);
 }
 
 #url:valid {
@@ -118,7 +133,7 @@ section:not(.inverted) .action-button{
 }
 
 #url:focus:not(:valid) {
-    border: var(--border-size) solid red;
+    border: var(--border-size) solid var(--error-color);
     border-radius: 10px;
 }
 
@@ -151,4 +166,8 @@ a#result-link:hover::before {
 
 .accessibility{
     display: none;
+}
+
+::placeholder{
+    color: var(--alt-color);
 }
