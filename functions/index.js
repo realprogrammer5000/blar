@@ -14,6 +14,7 @@ const validateDest = url => {
     try {
         if (typeof url !== "string") return false;
         if(url.length > settings.maxUrlLength) return false;
+        if(url.includes(" ")) return false;
         const urlObj = new URL(url);
         if (!["http:", "https:"].includes(urlObj.protocol)) return false;
         return !settings.forbiddenSites.includes(urlObj.hostname);
