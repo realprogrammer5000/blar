@@ -74,10 +74,15 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
     const hasPath = request.query.path !== undefined;
 
     if((!hasPath || validatePath(path)) && validateDest(dest)){
-        const matchingDestDocs = await db.collection("urls").where("dest", "==", dest).get();
+        if(!settings.allowDuplicateDestinations) {
+            const matchingDestDocs = await db.collection("urls").where("dest", "==", dest).get();
 
-        if(!matchingDestDocs.empty){
-            return response.status(400).json({errors: ["dest already exists"], path: matchingDestDocs.docs[0].data().path});
+            if (!matchingDestDocs.empty) {
+                return response.status(400).json({
+                    errors: ["dest already exists"],
+                    path: matchingDestDocs.docs[0].data().path
+                });
+            }
         }
 
         if(!hasPath) path = getRandPath();
