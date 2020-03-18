@@ -102,6 +102,8 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
             }
         }while(!isValidPath);
 
+        path = path.toLowerCase();
+
         await db.collection("urls").doc().set({path, dest});
 
         return response.json({errors: null, path});
