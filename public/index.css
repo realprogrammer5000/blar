@@ -176,21 +176,21 @@ a#result-link {
 a#result-link::before {
   content: "click to copy";
   position: absolute;
-  font-size: max(2vw, 2vh);
+  font-size: 30px;
   opacity: 0;
   transition: opacity .25s, transform 0.25s;
-  transform: translateY(max(2vw, 2vh));
+  transform: translateY(30px);
 }
 
 a#result-link:hover::before {
   opacity: 1;
-  transform: translateY(max(-2.5vw, -2.5vh));
+  transform: translateY(0px);
 }
 
 @media (hover: none){
   a#result-link::before {
     opacity: 1;
-    transform: translateY(max(-2.5vw, -2.5vh));
+    transform: translateY(-2.5vw);
   }
 }
 
@@ -214,10 +214,14 @@ footer{
   background: var(--main-bkg-color);
   color: var(--main-color);
   font-family: inherit;
-  font-size: max(14px, 3vh);
+  font-size: 30px;;
   cursor: pointer;
 }
 
 .footer-button:focus{
   outline: none;
+}
+
+:-moz-ui-invalid {
+  box-shadow: none;
 }
