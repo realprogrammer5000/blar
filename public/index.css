@@ -176,21 +176,21 @@ a#result-link {
 a#result-link::before {
   content: "click to copy";
   position: absolute;
-  font-size: 30px;
+  font-size: 3vh;
   opacity: 0;
   transition: opacity .25s, transform 0.25s;
-  transform: translateY(30px);
+  transform: translateY(0);
 }
 
 a#result-link:hover::before {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateY(-3vh);
 }
 
 @media (hover: none){
   a#result-link::before {
     opacity: 1;
-    transform: translateY(-2.5vw);
+    transform: translateY(-3vh);
   }
 }
 
