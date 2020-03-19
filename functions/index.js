@@ -99,7 +99,7 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
 
             isValidPath = matchingPathDocs.empty;
 
-            isExactlyTheSame = matchingPathDocs.docs[0].data().dest === dest;
+            isExactlyTheSame = !matchingPathDocs.empty && matchingPathDocs.docs[0].data().dest === dest;
 
             if(!isValidPath && !isExactlyTheSame){
                 path = getRandPath();
