@@ -128,7 +128,7 @@ urlElem.addEventListener("paste", () => {
     }, 0);
 });
 
-pathElem.addEventListener("input", e => {
+pathElem.addEventListener("input", () => {
     if(pathElem.value.includes(" ")) pathElem.value = pathElem.value.replace(/ /g, "-");
 });
 

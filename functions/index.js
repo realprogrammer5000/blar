@@ -29,9 +29,23 @@ const setup = async () => {
     await procNewSettings(settings);
 };
 
+const time = label => {
+    if(settings && settings.timeLog){
+        console.time(label);
+    }
+};
+
+const timeEnd = label => {
+    if(settings && settings.timeLog){
+        console.timeEnd(label);
+    }
+};
+
 const setupPromise = setup();
 
-db.collection("settings").doc("settings").onSnapshot(doc => procNewSettings(doc.data()));
+db.collection("settings").doc("settings").onSnapshot(async doc => {
+    await procNewSettings(doc.data());
+});
 
 const procNewSettings = async newSettings => {
     settings = newSettings;
@@ -66,15 +80,22 @@ const getRandPath = (finalLength = 1) => getRandLetterArray(settings.allowedCons
 exports.shortenUrl = functions.https.onRequest(async (request, response) => {
     const returnError = errors => response.status(400).json({errors});
 
+    time("function");
+
+    time("setup");
     // ensure we've setup before running
     await setupPromise;
+    timeEnd("setup");
 
     let {path, dest} = request.query;
 
     const hasPath = request.query.path !== undefined;
 
+    time("validate");
     if((!hasPath || validatePath(path)) && validateDest(dest)){
+        timeEnd("validate");
         if(!settings.allowDuplicateDestinations) {
+            time("duplicateDestCalc");
             const matchingDestDocs = await db.collection("urls").where("dest", "==", dest).get();
 
             if (!matchingDestDocs.empty) {
@@ -83,6 +104,7 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
                     path: matchingDestDocs.docs[0].data().path
                 });
             }
+            timeEnd("duplicateDestCalc");
         }
 
         if(!hasPath) path = getRandPath();
@@ -90,7 +112,10 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
         // find other entries with the same path
         let isValidPath = false;
         let isExactlyTheSame = false;
+
+        time("pathLoopTotal");
         do{
+            time("pathLoop");
             // make a new path if we don't have one
             // look up the docs with the same path
 
@@ -104,12 +129,17 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
             if(!isValidPath && !isExactlyTheSame){
                 path = getRandPath();
             }
-        }while(!isValidPath);
+            timeEnd("pathLoop");
+        }while(!isValidPath && !isExactlyTheSame);
+        timeEnd("pathLoopTotal");
 
         path = path.toLowerCase();
 
+        time("sameCheck");
         if(!isExactlyTheSame) await db.collection("urls").doc().set({path, dest, createdAt: admin.firestore.FieldValue.serverTimestamp()});
+        timeEnd("sameCheck");
 
+        timeEnd("function");
         return response.json({errors: null, path});
     }else{
         console.log(validatePath(path), validateDest(dest));
