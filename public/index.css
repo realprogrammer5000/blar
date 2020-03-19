@@ -158,7 +158,7 @@ section:not(.inverted) .action-button{
   border: var(--border-size) solid transparent;
 }
 
-#url:focus:not(:valid) {
+#url:focus:not(:valid),#url.invalid{
   outline: var(--border-size) solid var(--error-color);
 }
 

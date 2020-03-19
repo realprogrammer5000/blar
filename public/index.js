@@ -22,8 +22,11 @@ mainElem.addEventListener("touchmove", event => {
 const maxUrlLength = 22;
 const removeSuffixes = [".html", ".php"];
 const isHttps = true;
-const basePath = "blar.tk/";
+const basePath = "localhost:5000/";
 const apiPath = "shorten";
+
+let knownDomains = [];
+fetch("/domains.txt").then(x=>x.text()).then(x=>x.trim().split("\n")).then(domains => knownDomains = domains);
 
 let wasValid = false;
 
@@ -66,12 +69,24 @@ const submit = async () => {
     }
 };
 
-// urlElem.addEventListener("input", e => {
+urlElem.addEventListener("input", e => {
 // 	const size = (7 - (Math.sqrt(urlElem.value.length)) * 1.8);
 // 	e.target.style.fontSize = Math.max(size, 10) + "vw";
-// });
+    checkNoProtocol();
+});
+
+const checkNoProtocol = () => {
+    try {
+        const testUrl = new URL("http://" + urlElem.value);
+        const split = testUrl.hostname.split(".");
+        if(split.length > 1 && knownDomains.includes(split[split.length - 1])){
+            urlElem.value = "http://" + urlElem.value;
+        }
+    }catch(e){console.log(e);}
+};
 
 urlElem.addEventListener("focus", () => {
+    urlElem.classList.remove("invalid");
     if (urlElem.oldValue) {
         urlElem.value = urlElem.oldValue;
         urlElem.select();
@@ -79,10 +94,15 @@ urlElem.addEventListener("focus", () => {
 });
 
 urlElem.addEventListener("blur", () => {
+    if(!urlElem.validity.valid) {
+       checkNoProtocol();
+    }
+
     wasValid = urlElem.validity.valid;
     urlElem.oldValue = urlElem.value;
 
     if(urlElem.validity.valid){
+        urlElem.classList.remove("invalid");
         if (urlElem.value) {
             const url = new URL(urlElem.value);
             let newVal;
@@ -117,6 +137,8 @@ urlElem.addEventListener("blur", () => {
             }
             urlElem.value = newVal;
         }
+    }else{
+        urlElem.classList.add("invalid");
     }
 });
 
