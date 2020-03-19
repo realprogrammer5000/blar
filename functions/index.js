@@ -104,7 +104,7 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
 
         path = path.toLowerCase();
 
-        await db.collection("urls").doc().set({path, dest});
+        await db.collection("urls").doc().set({path, dest, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
 
         return response.json({errors: null, path});
     }else{
