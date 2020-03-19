@@ -25,6 +25,8 @@ const isHttps = true;
 const basePath = "localhost:5000/";
 const apiPath = "shorten";
 
+urlElem.focus();
+
 let knownDomains = [];
 fetch("/domains.txt").then(x=>x.text()).then(x=>x.trim().split("\n")).then(domains => knownDomains = domains);
 
@@ -52,6 +54,7 @@ const again = () => {
     pathElem.value = "";
 
     mainElem.classList.remove("finished");
+    urlElem.focus();
 };
 
 const submit = async () => {
@@ -64,8 +67,6 @@ const submit = async () => {
         resultLink.innerText = finalUrl;
 
         gtag("event", "submit", {event_catergory: "engagement", event_label: "path"});
-
-        // returnElem.focus();
     }
 };
 
