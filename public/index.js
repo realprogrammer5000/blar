@@ -22,7 +22,7 @@ mainElem.addEventListener("touchmove", event => {
 const maxUrlLength = 22;
 const removeSuffixes = [".html", ".php"];
 const isHttps = true;
-const basePath = "localhost:5000/";
+const basePath = "blar.tk/";
 const apiPath = "shorten";
 
 urlElem.focus();
