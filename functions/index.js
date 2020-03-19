@@ -89,22 +89,26 @@ exports.shortenUrl = functions.https.onRequest(async (request, response) => {
 
         // find other entries with the same path
         let isValidPath = false;
+        let isExactlyTheSame = false;
         do{
             // make a new path if we don't have one
             // look up the docs with the same path
 
             // eslint-disable-next-line no-await-in-loop
             const matchingPathDocs = await db.collection("urls").where("path", "==", path).get();
+
             isValidPath = matchingPathDocs.empty;
 
-            if(!isValidPath){
+            isExactlyTheSame = matchingPathDocs.docs[0].data().dest === dest;
+
+            if(!isValidPath && !isExactlyTheSame){
                 path = getRandPath();
             }
         }while(!isValidPath);
 
         path = path.toLowerCase();
 
-        await db.collection("urls").doc().set({path, dest, createdAt: admin.firestore.FieldValue.serverTimestamp()});
+        if(!isExactlyTheSame) await db.collection("urls").doc().set({path, dest, createdAt: admin.firestore.FieldValue.serverTimestamp()});
 
         return response.json({errors: null, path});
     }else{
