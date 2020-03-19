@@ -82,7 +82,7 @@ const checkNoProtocol = () => {
         if(split.length > 1 && knownDomains.includes(split[split.length - 1])){
             urlElem.value = "http://" + urlElem.value;
         }
-    }catch(e){console.log(e);}
+    }catch(e){}
 };
 
 urlElem.addEventListener("focus", () => {
