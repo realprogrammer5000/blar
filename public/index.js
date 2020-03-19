@@ -33,7 +33,7 @@ fetch("/domains.txt").then(x=>x.text()).then(x=>x.trim().split("\n")).then(domai
 let wasValid = false;
 
 if ("serviceWorker" in navigator){
-    navigator.serviceWorker.register("/sw.js");
+    navigator.serviceWorker.register("/sw.js").catch(()=>{});
 }
 
 
@@ -81,7 +81,7 @@ const checkNoProtocol = () => {
         const testUrl = new URL("http://" + urlElem.value);
         const split = testUrl.hostname.split(".");
         if(split.length > 1 && knownDomains.includes(split[split.length - 1])){
-            urlElem.value = "http://" + urlElem.value;
+            urlElem.value = "https://" + urlElem.value;
         }
     }catch(e){}
 };
