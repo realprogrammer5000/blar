@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy",
     "logs": "firebase functions:log",
-    "purge": "curl -X POST \"https://api.cloudflare.com/client/v4/zones/58f208c341e457dae578796adf413c9d/purge_cache\" -H \"Authorization: Bearer YGC72lHUtJdYsNb4lL7CldK1wut5b89hyIuEm0at\"   -H \"Content-Type: application/json\"  --data '{\"purge_everything\":true}'"
+    "purge": "echo $PWD ; curl -X POST \"https://api.cloudflare.com/client/v4/zones/58f208c341e457dae578796adf413c9d/purge_cache\" -H \"Authorization: Bearer $(cat token)\" -H \"Content-Type: application/json\"  --data '{\"purge_everything\":true}'"
   },
   "engines": {
     "node": "10"
