@@ -37,7 +37,9 @@ const validateDest = url => {
 
 exports.render = functions.https.onRequest(async (request, response) => {
     const url = new URL(request.url, "https://example.org");
-    const path = url.pathname.split("/").join("");
+    let path = url.pathname;
+    if(path.startsWith("/")) path = path.slice(1);
+    if(path.endsWith("/")) path = path.slice(0, -1);
 
     const snapshot = await db.collection("urls").where("path", "==", path).get();
     let data;
@@ -48,7 +50,7 @@ exports.render = functions.https.onRequest(async (request, response) => {
     if(!snapshot.empty && data && data.path && data.dest) {
         response.redirect(settings.httpRedirectCode, data.dest);
     }else{
-        response.status(500).end("Internal server error");
+        response.status(404).end("Page not found");
     }
 });
 
