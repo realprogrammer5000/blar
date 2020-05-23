@@ -65,7 +65,7 @@ const submit = async () => {
     submitElem.classList.add("fade-out");
 
     if(urlElem.value && wasValid){
-        const finalUrl = basePath + await shortenUrl(path.value, urlElem.oldValue || urlElem.value);
+        const finalUrl = basePath + await shortenUrl(pathElem.value, urlElem.oldValue || urlElem.value);
 
         mainElem.classList.add("finished");
 
@@ -162,7 +162,9 @@ pathElem.addEventListener("input", () => {
 });
 
 pathElem.addEventListener("keypress", e => {
-    if(e.key === "Enter") submit();
+    if(e.key === "Enter") { // noinspection JSIgnoredPromiseFromCall
+        submit();
+    }
 });
 
 submitElem.addEventListener("click", submit);
