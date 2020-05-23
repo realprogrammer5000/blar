@@ -36,7 +36,6 @@ if ("serviceWorker" in navigator){
     navigator.serviceWorker.register("/sw.js").catch(()=>{});
 }
 
-
 const shortenUrl = async (path, dest) => {
     const resp = await fetch(`${apiPath}?${path ? "path=" + path + "&": ""}dest=${dest}`, {method: "POST"});
     const data = await resp.json();
@@ -58,6 +57,13 @@ const again = () => {
 };
 
 const submit = async () => {
+    submitElem.classList.remove("fade-out");
+    // https://css-tricks.com/restart-css-animation/
+    // i love js
+    // noinspection SillyAssignmentJS
+    submitElem.offsetWidth = submitElem.offsetWidth;
+    submitElem.classList.add("fade-out");
+
     if(urlElem.value && wasValid){
         const finalUrl = basePath + await shortenUrl(path.value, urlElem.oldValue || urlElem.value);
 

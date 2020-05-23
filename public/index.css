@@ -225,3 +225,19 @@ footer{
 :-moz-ui-invalid {
   box-shadow: none;
 }
+
+
+.fade-out{
+  animation-duration: 3s;
+  animation-name: fadeout;
+}
+
+@keyframes fadeout {
+  from {
+    color: var(--main-bkg-color);
+  }
+
+  to {
+    color: var(--main-color);
+  }
+}
