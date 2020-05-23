@@ -76,7 +76,7 @@ const submit = async () => {
     }
 };
 
-urlElem.addEventListener("input", e => {
+urlElem.addEventListener("input", () => {
 // 	const size = (7 - (Math.sqrt(urlElem.value.length)) * 1.8);
 // 	e.target.style.fontSize = Math.max(size, 10) + "vw";
     checkNoProtocol();
